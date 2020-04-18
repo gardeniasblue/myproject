@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blogmang.dao.BlogUpdateDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.blogmang.entity.BlogUpdate">
+        <id column="id" property="id" />
+        <result column="blogUpdateTitle" property="blogUpdateTitle" />
+        <result column="blogUpdateCon" property="blogUpdateCon" />
+        <result column="author" property="author" />
+        <result column="createTime" property="createTime" />
+    </resultMap>
+
+    <select id="queryAllBlogUpdate" resultMap="BaseResultMap">
+        select * from tb_blog_update order by id desc limit 4
+    </select>
+    <insert id="addBlogUpdate" parameterType="BlogUpdate">
+        insert into tb_blog_update values (null,#{blogUpdateTitle},#{blogUpdateCon},#{author},#{createTime})
+    </insert>
+</mapper>

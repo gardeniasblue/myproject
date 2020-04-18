@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blogmang.dao.SystemUpdateDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.blogmang.entity.SystemUpdate">
+        <id column="id" property="id" />
+        <result column="systemUpdateTitle" property="systemUpdateTitle" />
+        <result column="systemUpdateCon" property="systemUpdateCon" />
+        <result column="systemUpdateEdition" property="systemUpdateEdition" />
+        <result column="createTime" property="createTime" />
+    </resultMap>
+
+    <select id="queryAllSystemUpdate" resultMap="BaseResultMap">
+        select * from tb_system_update order by id desc limit 4
+    </select>
+    <select id="selectSystemVersion" resultType="String">
+        select systemUpdateEdition from tb_system_update order by id desc limit 1
+    </select>
+    <insert id="addSystemUpdate" parameterType="SystemUpdate">
+        insert into tb_system_update values (null,#{systemUpdateTitle},#{systemUpdateCon},#{systemUpdateEdition},#{createTime})
+    </insert>
+</mapper>

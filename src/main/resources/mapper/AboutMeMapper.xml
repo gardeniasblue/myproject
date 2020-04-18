@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blogmang.dao.AboutMeDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.blogmang.entity.AboutMe">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="aboutcontext" property="aboutcontext" />
+        <result column="enablecomment" property="enablecomment" />
+        <result column="createtime" property="createtime" />
+    </resultMap>
+
+    <select id="queryAboutMe" resultType="AboutMe">
+        select * from tb_blog_aboutme order by id desc limit 1
+    </select>
+    <insert id="saveAboutMe" parameterType="AboutMe">
+        insert into tb_blog_aboutme values (null ,#{title},#{aboutcontext},#{enablecomment},#{createtime} )
+    </insert>
+    <update id="updateAboutMe" parameterType="AboutMe">
+        update tb_blog_aboutme
+        set
+        title=#{title},
+        aboutcontext=#{aboutcontext},
+        enablecomment=#{enablecomment},
+        createtime=#{createtime}
+         where id=#{id}
+    </update>
+
+</mapper>

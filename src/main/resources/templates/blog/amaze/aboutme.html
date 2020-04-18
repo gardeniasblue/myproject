@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>关于我</title>
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/X-admin/lib/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
+    <link rel="stylesheet" th:href="@{/X-admin/editormd/css/editormd.preview.css}" />
+    <style>
+        pre code {
+            white-space: pre;
+        }
+
+        blockquote {
+            border-left: 4px solid #42b983;
+            padding: 10px 0px 10px 15px;
+            color: #777;
+            background-color: rgba(66, 185, 131, .1);
+            max-width: 890px;
+        }
+    </style>
+
+</head>
+<body>
+<nav th:fragment="nav-fragment" class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" id="navbar-toggle">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                v1/blog
+            </a>
+        </div>
+
+        <div class="navbar-collapse" style="display: none" id="toggle-items">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a th:href="@{/index}">主页</a>
+                </li>
+                <li>
+                    <a th:href="@{/link}">友链</a>
+                </li>
+                <li>
+                    <a th:href="@{/view/v2/queryaboutme}">关于</a>
+                </li>
+                <li>
+                    <a href="https://github.com/wotuobang">GitHub</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a th:href="@{/index}">主页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/link}">友链</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/view/v2/queryaboutme}">关于</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/wotuobang">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script th:src="@{/blog/plugins/jquery/jquery.min.js}"></script>
+        <script>
+            $(function () {
+                $('#navbar-toggle').click(function () {
+                    $('#toggle-items').fadeToggle("fast");
+                });
+            })
+        </script>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<header th:fragment="header-fragment" class="intro-header"
+        th:style="'background-image:url(' + @{/blog/amaze/images/back03.jpg} + ');'">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+          <span class="subheading">
+              一晃两三年，匆匆又夏天
+          </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header><div class="container">
+    <div class="am-g am-g-fixed blog-fixed">
+        <div class="am-u-lg-12 am-u-sm-12">
+            <article id="test-markdown-view">
+                <!--                <textarea th:utext="${blogDetailVO.blogContent}"/>-->
+
+            </article>
+            <aside class="blog-rights clearfix">
+                <p>本站文章除注明转载/出处外，皆为作者原创，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>
+            </aside>
+            <hr>
+        </div>
+    </div>
+    <th:block th:if="${aboutlist.enablecomment==0}">
+        <div class="layui-form layui-form-pane">
+            <h2><i class="fa fa-pencil"></i> 添加留言</h2>
+            <div class="layui-form-item">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-block">
+                    <input type="hidden" id="authorId" autocomplete="off" />
+                    <input type="text" id="leaveMessageator" autocomplete="off" placeholder="必填,1-6个字符" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" id="email" autocomplete="off" placeholder="必填" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">网站地址</label>
+                <div class="layui-input-block">
+                    <input type="text" id="websiteUrl" autocomplete="off" placeholder="可不填" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">留言内容</label>
+                <div class="layui-input-block">
+                    <textarea id="leaveMessageBody" placeholder="既然来了,不如说几句" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button type="submit" class="layui-btn" id="commentSubmit">提交</button>
+            </div>
+        </div>
+    </th:block>
+    <p class="back-top" id="back-top" style="display:none"><a href="#top"><span></span></a></p>
+</div>
+<footer th:replace="blog/amaze/footer::footer-fragment"></footer>
+</body>
+<script th:src="@{/blog/plugins/jquery/jquery.min.js}"></script>
+
+<script src="/X-admin/editormd/lib/marked.min.js"></script>
+<script src="/X-admin/editormd/lib/prettify.min.js"></script>
+<script src="/X-admin/editormd/lib/raphael.min.js"></script>
+<script src="/X-admin/editormd/lib/underscore.min.js"></script>
+<script src="/X-admin/editormd/lib/sequence-diagram.min.js"></script>
+<script src="/X-admin/editormd/lib/flowchart.min.js"></script>
+<script src="/X-admin/editormd/lib/jquery.flowchart.min.js"></script>
+<script src="/X-admin/editormd/src/editormd.js"></script>
+
+<script th:src="@{/blog/plugins/comment/valid.js}"></script>
+<script th:src="@{/blog/plugins/comment/leavemessage.js}"></script>
+<!-- sweetalert -->
+<script th:src="@{/lib/sweetalert.min.js}"></script>
+<!-- 评论 -->
+<script th:src="@{/X-admin/lib/layui/layui.all.js}"></script>
+<script th:inline="javascript">
+    ;!function () {
+        var laypage = layui.laypage,
+            $ = layui.$;
+
+        testEditormdView = editormd.markdownToHTML("test-markdown-view", {
+            htmlDecode      : "style,script,iframe",
+            emoji           : true,
+            taskList        : true,
+            tex             : true,
+            flowChart       : true,
+            sequenceDiagram : true,
+            markdown        : [[${aboutlist.aboutcontext}]]
+        });
+
+        // 初始化评论列表
+
+
+        $("#back-top").hide();
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 300) {
+                $('#back-top').fadeIn();
+            } else {
+                $('#back-top').fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-top a').click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 800);
+            return false;
+        });
+
+        $('article h1, article h2, article h3, article h4, article h5').find('a').removeAttr('target')
+    }();
+</script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}" />
+</head>
+<body>
+<div th:replace="blog/amaze/header::nav-fragment"></div>
+<header th:style="'background-image:url(' + @{/blog/amaze/images/back04.jpg} + ');'" class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+							<span class="subheading">
+								一晃两三年，匆匆又夏天
+							</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="am-g am-g-fixed blog-fixed">
+    <div class="am-u-lg-8 am-u-sm-12">
+        <main class="articles-list">
+            <div>
+                <article class="am-g blog-entry-article" th:each="searchlists : ${searchlist}">
+                    <div class="am-u-lg-6 am-u-lg-12 am-u-sm-12 blog-entry-text post-preview">
+                        <div class="topic-header">
+                            <div class="pull-left">
+                                <div class="blog-flex-center">
+                                    <div class="blog-flex0">
+                                        <img th:src="@{/blog/amaze/images/word.jpg}" src="" alt="" class="link avatar avatar-image">
+                                    </div>
+                                    <div class="author-lockup blog-flex1">
+                                        <a th:text="${searchlists.blogAuthor}" class="link" href="javascript:;">13</a>
+                                        <span class="in">in</span>
+                                        <span class="category-name">
+													<a class="category-name layui-badge layui-bg-cyan" th:text="${searchlists.blogCategoryName}">hhh</a>
+												</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="pull-right time pc_time" th:text="${#dates.format(searchlists.createTime, 'yyyy-MM-dd')}">2019-01</span>
+                        </div>
+                        <h1 class="post-index-title"><a th:href="@{'/view/v2/bloginfo/' + ${searchlists.blogId}}" th:text="${searchlists.blogTitle}">博客标题</a>
+                        </h1>
+                        <div class="abstract vditor-reset">
+                            <p th:text="${searchlists.blogPreface}">
+                                博客描述
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+        </main>
+    </div>
+    <div th:replace="blog/amaze/side::side-fragment"></div>
+</div>
+<footer th:replace="blog/amaze/footer::footer-fragment"></footer>
+</body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/lib/layui/layui.js}"></script>
+<script th:src="@{/blog/plugins/search/search.js}"></script>
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+
+</script>
+
+</body>
+</html>

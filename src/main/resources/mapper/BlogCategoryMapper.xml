@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blogmang.dao.BlogCategoryDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.blogmang.entity.BlogCategory">
+        <id column="categoryId" property="categoryId" />
+        <result column="categoryName" property="categoryName" />
+        <result column="categoryIcon" property="categoryIcon" />
+        <result column="categoryRank" property="categoryRank" />
+        <result column="isDeleted" property="isDeleted" />
+        <result column="createTime" property="createTime" />
+    </resultMap>
+
+    <select id="queryAllCategory" resultMap="BaseResultMap">
+        select * from tb_blog_category
+    </select>
+    <select id="queryCateVo" resultMap="BaseResultMap">
+        select * from tb_blog_category where categoryId != 1
+    </select>
+    <insert id="saveCategory" parameterType="BlogCategory">
+        insert into tb_blog_category values (null,#{categoryName},null,#{categoryRank},0,#{createTime})
+    </insert>
+    <update id="updateCatIsDel" parameterType="BlogCategory">
+        update tb_blog_category set isDeleted=#{isDeleted} where categoryId=#{categoryId}
+    </update>
+    <delete id="delCategory" parameterType="int">
+        delete from tb_blog_category where categoryId=#{categoryId}
+    </delete>
+</mapper>

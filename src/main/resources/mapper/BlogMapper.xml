@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blogmang.dao.BlogDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.blogmang.entity.BlogInfo">
+        <id column="blogId" property="blogId" />
+        <result column="blogTitle" property="blogTitle" />
+        <result column="blogSubUrl" property="blogSubUrl" />
+        <result column="blogPreface" property="blogPreface" />
+        <result column="blogContent" property="blogContent" />
+        <result column="blogAuthor" property="blogAuthor" />
+        <result column="bloCategoryId" property="bloCategoryId" />
+        <result column="blogCategoryName" property="blogCategoryName" />
+        <result column="blogTags" property="blogTags" />
+        <result column="blogStatus" property="blogStatus" />
+        <result column="blogViews" property="blogViews" />
+        <result column="enableComment" property="enableComment" />
+        <result column="isDeleted" property="isDeleted" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime"/>
+
+    </resultMap>
+
+    <select id="queryAllBlog" resultMap="BaseResultMap">
+        select * from tb_blog_info order by blogId desc limit 5
+    </select>
+    <select id="queryAllBlogView" resultMap="BaseResultMap">
+        select * from tb_blog_info where blogStatus=1 order by blogId desc limit 5
+    </select>
+    <select id="queryBlogById" parameterType="Long" resultType="com.blogmang.entity.BlogInfo">
+        select * from tb_blog_info where blogId = #{blogId}
+    </select>
+    <insert id="saveBlog" parameterType="com.blogmang.entity.BlogInfo" useGeneratedKeys="true" keyProperty="blogId">
+        insert into tb_blog_info values (null,
+        #{blogTitle},
+        #{blogSubUrl},
+        #{blogPreface},
+        #{blogContent},
+        #{blogAuthor},
+        #{blogCategoryId},
+        #{blogCategoryName},
+        #{blogTags},
+        #{blogStatus},
+        0,
+        #{enableComment},
+        0,
+        #{createTime},
+        #{updateTime})
+    </insert>
+    <select id="selectBlogByNew" resultMap="BaseResultMap">
+        select blogId,blogTitle from tb_blog_info where blogStatus=1 order by createTime desc limit 5
+    </select>
+    <select id="countBlog" resultType="int">
+       select count(*) from tb_blog_info
+    </select>
+    <select id="selectBlogByClick" resultMap="BaseResultMap">
+        select blogId,blogTitle from tb_blog_info where blogStatus=1 order by blogViews desc limit 5
+    </select>
+    <select id="selectBlogByBlogTitle" parameterType="String" resultMap="BaseResultMap">
+        select * from tb_blog_info where blogTitle like concat('%',#{blogTitle},'%')
+    </select>
+    <delete id="blogDelete" parameterType="Long">
+        delete from tb_blog_info where blogId=#{blogId}
+    </delete>
+    <update id="updateBlog" parameterType="com.blogmang.entity.BlogInfo">
+        update tb_blog_info set blogTitle=#{blogTitle},
+        blogSubUrl=#{blogSubUrl},
+        blogPreface=#{blogPreface},
+        blogContent=#{blogContent},
+        blogCategoryId=#{blogCategoryId},
+        blogCategoryName=#{blogCategoryName},
+        blogTags=#{blogTags},
+        enableComment=#{enableComment},
+        blogStatus=#{blogStatus},
+        updateTime=#{updateTime}
+        where blogId=#{blogId}
+    </update>
+    <update id="updateBlogStatus" parameterType="com.blogmang.entity.BlogInfo">
+        update
+        tb_blog_info
+        set
+        blogStatus=#{blogStatus},
+        updateTime=#{updateTime}
+        where blogId=#{blogId}
+    </update>
+    <update id="updateBlogenableComment" parameterType="com.blogmang.entity.BlogInfo">
+        update
+        tb_blog_info
+        set
+        enableComment=#{enableComment},
+        updateTime=#{updateTime}
+        where blogId=#{blogId}
+    </update>
+    <select id="searchBlog" parameterType="BlogInfo" resultMap="BaseResultMap">
+        select * from tb_blog_info where blogTitle like concat('%',#{blogTitle},'%') and blogCategoryId = #{blogCategoryId}
+    </select>
+    <select id="queryBlogByCatId" parameterType="int" resultMap="BaseResultMap">
+        select * from tb_blog_info where blogCategoryId = #{blogCategoryId}
+    </select>
+    <update id="updateBlogCat" parameterType="com.blogmang.entity.BlogInfo">
+        update
+        tb_blog_info
+        set
+        blogCategoryId=#{blogCategoryId},
+        blogCategoryName=#{blogCategoryName}
+        where blogId=#{blogId}
+    </update>
+    <select id="queryBlogByTags" parameterType="String" resultMap="BaseResultMap">
+        select * from tb_blog_info where blogTags like concat('%',#{blogTags},'%')
+    </select>
+    <update id="updateBlogTags" parameterType="com.blogmang.entity.BlogInfo">
+        update
+        tb_blog_info
+        set
+        blogTags=#{blogTags}
+        where blogId=#{blogId}
+    </update>
+</mapper>

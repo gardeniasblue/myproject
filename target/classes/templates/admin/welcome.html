@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>欢迎页面-X-admin2.2</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" th:href="@{/css/font.css}">
+        <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+        <link rel="stylesheet" th:href="@{/css/theme2720.min.css}">
+        <!-- <link rel="stylesheet" href="./css/theme5.css"> -->
+        <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+        <script th:src="@{/js/xadmin.js}" type="text/javascript" ></script>
+        <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+        <!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body ">
+                            <blockquote class="layui-elem-quote">欢迎管理员：
+                                <span class="x-red"th:text="${session.loginUser}" >test</span>！当前时间:2018-04-25 20:50:53
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">数据统计</div>
+                        <div class="layui-card-body ">
+                            <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a th:href="@{/admin/v2/tobloglist}" class="x-admin-backlog-body">
+                                        <h3>文章数</h3>
+                                        <p id="blogcount">
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a th:href="@{/admin/v1/adminlist}" class="x-admin-backlog-body">
+                                        <h3>会员数</h3>
+                                        <p id="usercount">
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a th:href="@{/admin/v5/tocommentlist}" class="x-admin-backlog-body">
+                                        <h3 id="commentadd">评论数&nbsp;&nbsp;&nbsp;</h3>
+                                        <p id="commentcount">
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a th:href="@{/admin/v10/tomessagelist}" class="x-admin-backlog-body">
+                                        <h3 id="messageadd">留言数  </h3>
+                                        <p id="messagecount">
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">系统更新日志</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <ul class="layui-timeline">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">博客更新日志</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <ul class="layui-timeline2">
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">开发团队</div>
+                        <div class="layui-card-body ">
+                            <table class="layui-table">
+                                <tbody>
+                                    <tr>
+                                        <th>开发者</th>
+                                        <td>王鹏飞(2539256533@qq.com)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </body>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script>
+        layui.use(['form', 'layer', 'laydate'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            var $ = layui.jquery;
+            var endworkdate = null;
+
+//页面一加载就发送ajax
+            $(function(){
+
+                $.ajax({
+                    url: "/admin/v8/queryall",
+                    type: "get",
+                    datType: "json",
+                    success: function(data){
+                        console.log("success!!!!");
+                        buildSuccess(data);
+                    }
+                });
+                $.ajax({
+                    url: "/admin/v9/queryblogupdateall",
+                    type: "get",
+                    datType: "json",
+                    success: function(data){
+                        buildSuccess2(data);
+                    }
+                });
+                $.ajax({
+                    url: "/admin/v2/countblog",
+                    type: "get",
+                    datType: "json",
+                    success: function(data){
+                        console.log(data)
+                        var blogcity =$("<cite></cite>").append(data.blogcount).appendTo("#blogcount");
+                        var usercity =$("<cite></cite>").append(data.usercount).appendTo("#usercount");
+                        if(data.commentbncount != 0){
+                            var commentadd = $("<span></span>").append("+"+data.commentbncount).addClass("layui-badge").appendTo("#commentadd");
+                        }
+                        var commentcity =$("<cite></cite>").append(data.commentbycount).appendTo("#commentcount");
+                    }
+                });
+                $.ajax({
+                    url: "/admin/v10/countmessage",
+                    type: "get",
+                    datType: "json",
+                    success: function(data){
+                        console.log(data)
+                        var message =$("<cite></cite>").append(data.messagebycount).appendTo("#messagecount");
+                        if(data.messagebncount != 0){
+                            var commentadd = $("<span></span>").append("+"+data.messagebncount).addClass("layui-badge").appendTo("#messageadd");
+                        }
+                    }
+                });
+
+            })
+            function buildSuccess(data){
+                $.each(data.data, function(index,values){   // 解析出data对应的Object数组
+
+                    var li=$("<li></li>").addClass("layui-timeline-item");
+                    var i=$("<i>&#xe63f;</i>").addClass("layui-icon layui-timeline-axis");
+                    var div=$("<div></div>").addClass("layui-timeline-content layui-text");
+                    var da = new Date(values.createTime);
+                    var dates=da.getFullYear() + "年" + (da.getMonth() + 1) + "月" + da.getDate() + "日";
+                    var date=$("<h3></h3>").addClass("layui-timeline-title").append(dates).append("&nbsp;&nbsp;&nbsp;&nbsp;").append(values.systemUpdateEdition);
+                    var updateTil = $("<b></b>").append(values.systemUpdateTitle);
+                    var updateCon=$("<p>&nbsp;&nbsp;</p>").append(values.systemUpdateCon);
+                    div.append(date).append(updateTil).append(updateCon);
+                    li.append(i).append(div).appendTo(".layui-timeline");
+                });
+                var ndiv = $("<div></div>").append("过去").addClass("layui-timeline-title");
+                var vdiv = $("<div></div>").append(ndiv).addClass("layui-timeline-content layui-text");
+                var i =$("<i>&#xe63f;</i>").addClass("layui-icon layui-timeline-axis");
+                var li = $("<li></li>").append(i).append(vdiv).addClass("layui-timeline-item").appendTo(".layui-timeline");
+            }
+            function buildSuccess2(data){
+                $.each(data.data, function(index,values){   // 解析出data对应的Object数组
+
+                    var li=$("<li></li>").addClass("layui-timeline-item");
+                    var i=$("<i>&#xe63f;</i>").addClass("layui-icon layui-timeline-axis");
+                    var div=$("<div></div>").addClass("layui-timeline-content layui-text");
+                    var da = new Date(values.createTime);
+                    var dates=da.getFullYear() + "年" + (da.getMonth() + 1) + "月" + da.getDate() + "日";
+                    var date=$("<h3></h3>").addClass("layui-timeline-title").append(dates);
+                    var updateTil = $("<b></b>").append(values.blogUpdateTitle);
+                    var updateCon=$("<p>&nbsp;&nbsp;</p>").append(values.blogUpdateCon);
+                    div.append(date).append(updateTil).append(updateCon);
+                    li.append(i).append(div).appendTo(".layui-timeline2");
+                });
+                var ndiv = $("<div></div>").append("过去").addClass("layui-timeline-title");
+                var vdiv = $("<div></div>").append(ndiv).addClass("layui-timeline-content layui-text");
+                var i =$("<i>&#xe63f;</i>").addClass("layui-icon layui-timeline-axis");
+                var li = $("<li></li>").append(i).append(vdiv).addClass("layui-timeline-item").appendTo(".layui-timeline2");
+            }
+        });
+
+
+    </script>
+</html>

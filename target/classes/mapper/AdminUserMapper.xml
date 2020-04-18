@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blogmang.dao.AdminUserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.blogmang.entity.AdminUser">
+        <id column="adminUserId" property="adminUserId" />
+        <result column="loginUserName" property="loginUserName" />
+        <result column="loginPassword" property="loginPassword" />
+        <result column="nickName" property="nickName" />
+        <result column="locked" property="locked" />
+        <result column="role" property="role" />
+    </resultMap>
+
+    <select id="userLogin" parameterType="String" resultType="com.blogmang.entity.AdminUser">
+        SELECT * FROM tb_admin_user WHERE loginUserName = #{username}
+    </select>
+    <select id="countUser" resultType="int">
+        SELECT count(*) FROM tb_admin_user
+    </select>
+    <insert id="addUser" parameterType="com.blogmang.entity.AdminUser" >
+        INSERT INTO tb_admin_user VALUES (null,#{loginUserName},#{loginPassword},#{nickName},0,#{role})
+    </insert>
+    <select id="userList" resultMap="BaseResultMap">
+        SELECT * FROM tb_admin_user
+    </select>
+    <delete id="deleteUser" parameterType="Long">
+        DELETE FROM tb_admin_user WHERE adminUserId=#{id}
+    </delete>
+    <select id="queryUserById" parameterType="Integer" resultType="com.blogmang.entity.AdminUser">
+        SELECT * FROM tb_admin_user WHERE adminUserId=#{adminUserId}
+    </select>
+    <update id="updateUserById" parameterType="com.blogmang.entity.AdminUser">
+        UPDATE tb_admin_user SET loginUserName=#{loginUserName},nickName=#{nickName},locked=#{locked},loginPassword=#{loginPassword},role=#{role} WHERE adminUserId=#{adminUserId}
+    </update>
+    <select id="examineUser" parameterType="String" resultType="com.blogmang.entity.AdminUser">
+        SELECT * FROM  tb_admin_user WHERE loginUserName=#{loginUserName}
+    </select>
+    <update id="disableUser" parameterType="Integer">
+        UPDATE tb_admin_user SET locked=#{locked} WHERE adminUserId=#{adminUserId}
+    </update>
+    <select id="searchUser" resultMap="BaseResultMap" parameterType="String">
+        SELECT * FROM tb_admin_user WHERE loginUserName=#{loginUserName} OR nickName=#{nickName}
+    </select>
+</mapper>

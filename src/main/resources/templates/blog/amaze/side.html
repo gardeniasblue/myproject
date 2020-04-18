@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="side-fragment" class="am-u-lg-4 am-u-sm-12 am-u-lg-offset-0 am-u-sm-offset-0 sidebar-container">
+    <section>
+        <section>
+            <div class="sidebar-header">
+							<span class="sidebar-header-title">
+								搜索文章
+							</span>
+            </div>
+            <div class="sidebar-search">
+                <form method="get" onsubmit="return false;" accept-charset="utf-8">
+                    <div class="search-input">
+                        <input type="text" name="keyword" id="searchbox" autocomplete="off" placeholder="输入关键字搜索">
+                        <button type="submit" class="search-submit" onclick="search()"></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section>
+            <div class="sidebar-header">
+							<span class="sidebar-header-title">
+								热门标签
+							</span>
+            </div>
+            <div class="tags ">
+                <div class="tagsnar">
+                    <th:block th:each="blogtaglists : ${blogtaglist}">
+                        <a th:href="@{'/view/v2/tag/bloglist/'+${blogtaglists.tagId}}" rel="tag" th:text="${blogtaglists.tagName}">
+                        </a>
+                    </th:block>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="sidebar-header">
+							<span class="sidebar-header-title">
+								最新发布
+							</span>
+            </div>
+            <div class="sidebar-list">
+                <ul class="sidebar-list-body sidebar-list-items">
+                    <li class="sidebar-list-item" th:each="blogbynews : ${newsblog}">
+                        <a th:href="@{'/view/v2/bloginfo/'+${blogbynews.blogId}}" class="tag tooltipped tooltipped-n" th:text="${blogbynews.blogTitle}">
+                            最新发布
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <div class="sidebar-header">
+							<span class="sidebar-header-title">
+								点击最多
+							</span>
+            </div>
+            <main class="sidebar-lists">
+                <ul>
+                    <li class="sidebar-list-item" th:each="blogview : ${blogviews}">
+                        <a th:href="@{'/view/v2/bloginfo/'+${blogview.blogId}}" th:text="${blogview.blogTitle}" class="tag tooltipped tooltipped-n"> 点击最多</a>
+                    </li>
+                </ul>
+
+            </main>
+        </section>
+    </section>
+</div>
+</html>

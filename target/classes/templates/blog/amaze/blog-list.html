@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="blog-list-fragment" class="am-u-lg-8 am-u-sm-12">
+    <main class="articles-list">
+        <div>
+            <article class="am-g blog-entry-article" th:each="bloglists : ${bloglist}">
+                <div class="am-u-lg-6 am-u-lg-12 am-u-sm-12 blog-entry-text post-preview">
+                    <div class="topic-header">
+                        <div class="pull-left">
+                            <div class="blog-flex-center">
+                                <div class="blog-flex0">
+                                    <img th:src="@{/blog/amaze/images/word.jpg}" src="" alt="" class="link avatar avatar-image">
+                                </div>
+                                <div class="author-lockup blog-flex1">
+                                    <a th:text="${bloglists.blogAuthor}" class="link" href="javascript:;">13</a>
+                                    <span class="in">in</span>
+                                    <span class="category-name">
+													<a class="category-name layui-badge layui-bg-cyan" th:text="${bloglists.blogCategoryName}">hhh</a>
+												</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="pull-right time pc_time" th:text="${#dates.format(bloglists.createTime, 'yyyy-MM-dd')}">2019-01</span>
+                    </div>
+                    <h1 class="post-index-title"><a th:href="@{'/view/v2/bloginfo/' + ${bloglists.blogId}}" th:text="${bloglists.blogTitle}">博客标题</a>
+                    </h1>
+                    <div class="abstract vditor-reset">
+                        <p th:text="${bloglists.blogPreface}">
+                            博客描述
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+    </main>
+</div>
+</html>

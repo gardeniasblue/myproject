@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blogmang.dao.LeaveMessageDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.blogmang.entity.LeaveMessage">
+        <id column="id" property="id" />
+        <result column="leaveMessageator" property="leaveMessageator" />
+        <result column="email" property="email" />
+        <result column="websiteUrl" property="websiteUrl" />
+        <result column="leaveMessageBody" property="leaveMessageBody" />
+        <result column="leaveMessageCreateTime" property="leaveMessageCreateTime" />
+        <result column="replyBody" property="replyBody" />
+        <result column="replyTime" property="replyTime" />
+        <result column="leaveMessageStatus" property="leaveMessageStatus" />
+    </resultMap>
+
+    <select id="queryAllMessageByYN" parameterType="int" resultMap="BaseResultMap">
+        select * from tb_leave_message where leaveMessageStatus=#{leaveMessageStatus}
+    </select>
+    <select id="queryMessageById" parameterType="int" resultMap="BaseResultMap">
+        select * from tb_leave_message where id=#{id}
+    </select>
+    <select id="queryAllMessage" parameterType="int" resultMap="BaseResultMap">
+        select * from tb_leave_message
+    </select>
+    <select id="countMessageSy" resultType="int">
+        select count(*) from tb_leave_message
+    </select>
+    <select id="countMessageSn" resultType="int">
+        select count(*) from tb_leave_message where leaveMessageStatus=0
+    </select>
+    <insert id="saveMessage" parameterType="LeaveMessage">
+        insert into tb_leave_message values (null,
+        #{leaveMessageator},
+        #{email},
+        #{websiteUrl},
+        #{leaveMessageBody},
+        #{leaveMessageCreateTime},null,null,0)
+    </insert>
+    <delete id="delMessage" parameterType="int">
+        delete from tb_leave_message where id=#{id}
+    </delete>
+    <update id="updateMessage" parameterType="LeaveMessage">
+        update  tb_leave_message set leaveMessageStatus=#{leaveMessageStatus} where id=#{id}
+    </update>
+    <update id="replyMessage" parameterType="LeaveMessage">
+        update  tb_leave_message set replyBody=#{replyBody},replyTime=#{replyTime} where id=#{id}
+    </update>
+</mapper>
